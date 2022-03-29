@@ -1,0 +1,141 @@
+---
+title: "Summary of results"
+output: html_document
+---
+
+This document illustrates the querying and application of results derived and stored following the analysis results data model (ARDM). The tabs contain examples rendering the results from a descriptive, safety, and survival analysis standard into plots and tables.
+
+```{r load, results='hide', message=FALSE, include=T}
+
+# Load libraries
+library(tidyverse)
+library(DBI)
+library(RSQLite)
+library(here)
+library(scales)
+library(reactable)
+
+# Load files necessary to create the tables and plots
+source(here::here("applications/plots.R"))
+source(here::here("applications/tables.R"))
+
+# Open connection to the database
+connection <- dbConnect(RSQLite::SQLite(), dbname = here::here("database/ardm.sqlite"))
+
+```
+
+## {.tabset}
+
+### Descriptive Statistics
+
+#### Demographics
+
+```{r demographics_continuous, fig.align='center'}
+# Search for the data and include the treatment names
+data <- dbGetQuery(connection, "SELECT * FROM descriptive_demographics_continuous
+                                LEFT JOIN 
+                                  (SELECT DISTINCT parameter_id, name FROM demographics_per_subject) 
+                                  AS newtable1
+                                USING 
+                                (parameter_id)
+                                LEFT JOIN 
+                                  (SELECT treatment_id, treatment FROM treatments) AS newtable2 
+                                USING 
+                                (treatment_id)")
+
+# Update margins
+par(mar = c(4, 4, .1, .2))
+
+# Plot the results
+plot_boxplot(data)
+```
+
+```{r demographics_categorical, fig.align='center'}
+# Search for the data and include the treatment names
+data <- dbGetQuery(connection, "SELECT * FROM descriptive_demographics_categorical
+                                LEFT JOIN 
+                                  (SELECT DISTINCT parameter_id, name FROM demographics_per_subject) 
+                                  AS newtable1
+                                USING 
+                                (parameter_id)
+                                LEFT JOIN 
+                                  (SELECT treatment_id, treatment FROM treatments) AS newtable2 
+                                USING 
+                                (treatment_id)")
+
+# Update margins
+par(mar = c(4, 4, .1, .2))
+
+# Plot the results
+plot_dotplot(data)
+```
+
+#### Baselines
+
+```{r baselines_continuous, fig.align='center'}
+# Search for the data and include the treatment names
+data <- dbGetQuery(connection, "SELECT * FROM descriptive_baselines_continuous
+                                LEFT JOIN 
+                                  (SELECT DISTINCT parameter_id, name FROM baselines_per_subject) 
+                                  AS newtable1
+                                USING 
+                                (parameter_id)
+                                LEFT JOIN 
+                                  (SELECT treatment_id, treatment FROM treatments) AS newtable2 
+                                USING 
+                                (treatment_id)")
+
+# Update margins 
+par(mar = c(4, 4, .1, .2))
+
+plots <- purrr::map(unique(data$name), # Get the parameters
+                function(x) {filtered_data <- data %>% dplyr::filter(name == x) # Filter by parameter
+                            plot_boxplot(filtered_data) # Plot the results
+                            }
+                )
+```
+
+### Safety Analysis
+
+```{r safety, fig.align='center'}
+# Search for the data and include the treatment names
+data <- dbGetQuery(connection, "SELECT * FROM crude_incidence
+                                LEFT JOIN 
+                                  (SELECT treatment_id, treatment FROM treatments) AS newtable 
+                                USING (treatment_id)")
+# Select the data to show                           
+selected_data <- data %>%
+  dplyr::select(study_id, treatment, SOC, PT, N_PT, P_PT) %>% 
+  dplyr::distinct()
+
+# Show the results table
+create_AE_table(selected_data)
+```
+
+### Survival Analysis
+
+```{r survival, fig.align='center'}
+# Search for the data 
+data <- dbGetQuery(connection, "SELECT * FROM survival_analysis")
+
+# Update margins 
+par(mar = c(4, 4, .1, .2))
+
+# Plot the results
+plot_km(data)
+```
+
+```{r survival_filtered, fig.align='center'}
+# Search for the data 
+data <- dbGetQuery(connection, "SELECT * FROM survival_analysis")
+
+# Update margins 
+par(mar = c(4, 4, .1, .2))
+
+# Optional: filter the data  
+filtered_data <- data %>% 
+  dplyr::filter(!strata  %in% "treatment=Xanomeline low dose")
+
+# Plot the filtered results
+plot_km(filtered_data)
+```
