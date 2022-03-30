@@ -8,17 +8,17 @@ library(stringr)
 
 # ---- Load R files ----
 
-source(here::here("modules/create_tables.R"))
-source(here::here("modules/add_to_tables.R"))
-source(here::here("modules/standards/descriptive_analysis.R"))
-source(here::here("modules/standards/safety_analysis.R"))
-source(here::here("modules/standards/survival_analysis.R"))
+source(here::here("ARDM/modules/create_tables.R"))
+source(here::here("ARDM/modules/add_to_tables.R"))
+source(here::here("ARDM/modules/standards/descriptive_analysis.R"))
+source(here::here("ARDM/modules/standards/safety_analysis.R"))
+source(here::here("ARDM/modules/standards/survival_analysis.R"))
 
 # ---- Load ADaM datasets ----
 
-data_adsl <- read_xpt(here::here("data/adsl.xpt"))
-data_adtte <- read_xpt(here::here("data/adtte.xpt"))
-data_adae <- read_xpt(here::here("data/adae.xpt"))
+data_adsl <- read_xpt(here::here("ARDM/data/adsl.xpt"))
+data_adtte <- read_xpt(here::here("ARDM/data/adtte.xpt"))
+data_adae <- read_xpt(here::here("ARDM/data/adae.xpt"))
 
 data_adsl[data_adsl == ""] <- NA
 data_adtte[data_adtte == ""] <- NA
@@ -30,7 +30,7 @@ data_adtte <- data_adtte %>% mutate_all(as.character)
 
 # ---- Open database connection ----
 
-connection <- dbConnect(RSQLite::SQLite(), dbname = "database/ardm.sqlite")
+connection <- dbConnect(RSQLite::SQLite(), dbname = "ARDM/database/ardm.sqlite")
 
 # ---- Create empty tables according to the data model schema ----
 
