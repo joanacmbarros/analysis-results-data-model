@@ -15,6 +15,9 @@ library(here)
 library(scales)
 library(reactable)
 
+# Make sure path is relative
+here::i_am("ARDM/applications/summary.Rmd")
+
 # Load files necessary to create the tables and plots
 source(here::here("ARDM", "applications", "plots.R"))
 source(here::here("ARDM", "applications", "tables.R"))
