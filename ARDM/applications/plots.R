@@ -55,7 +55,7 @@ plot_dotplot <- function(data){
                    x = proportion,
                    col = treatment)) + 
       geom_point(alpha = 0.75, size = 4) +
-      facet_wrap(~name, ) +
+      facet_wrap(~name, scales = "free") +
       theme_light() +
       theme(axis.title = element_blank(), 
             panel.grid.minor.x = element_blank(),
