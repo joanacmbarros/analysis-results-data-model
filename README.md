@@ -11,14 +11,7 @@ management and stewardship by combining analysis standards with a common
 data model. The ARDM re-frames the target of analyses from static
 representations of the results (e.g., tables and figures) to a data
 model with applications in a variety of contexts, including knowledge
-discovery.
-
-To showcase the ARDM, we focus on its application in a clinical setting.
-The development and approval of new treatments generates large volumes
-of results, such as summaries of efficacy and safety from supporting
-clinical trials. Submission dossiers can contain analysis outputs
-spanning thousands of pages; hence, the management and stewardship of
-clinical data can greatly benefit from the ARDM.
+discovery. To showcase the ARDM, we focus on its application in a clinical setting.
 
 ## How to use
 
@@ -26,29 +19,21 @@ The repository can be used in two ways:
 
 1.  Applying the database - Utilizes the pre-existing database which can
     be immediately queried and applied using the application examples in
-    `summary.Rmd`. The database table names and respective entities are
-    shown in figure X.
+    `summary.Rmd`.
 
 2.  Creating a new database - Utilizes the pre-existing standards and
     schema; the new data must follow the CDISC ADaM format. To
     initialize the new database run `initialize_ardm.R`.
 
-In addition, this document also provides the implementation steps to
-create the ARDM (section @ref(implementation)).
-
 ### Technical details
 
 The data utilized corresponds to the CDISC Pilot Project ADaM data sets
-(CDISC 2013) for subject-level (ASDL), adverse events (ADAE), and
+(CDISC, 2013) for subject-level (ASDL), adverse events (ADAE), and
 time-to-event (ADTTE) analysis data sets. The ARDM is implemented using
 a relational SQLite database (Hipp 2022) through the R programming
 language with dependencies on the libraries `haven 2.4.3`, `here 1.0.1`,
 `tidyverse 1.3.1`, `DBI 1.1.1`, `RSQLite 2.2.9`, `survival 3.2.10`,
 `stringr 1.4.0`, `scales 1.1.1`, and `reactable 0.2.3`.
-
-### Repository structure
-
-**FIGURE HERE**
 
 ## Implementation
 
@@ -69,6 +54,10 @@ Similarly, the algorithm creates an *analysis standards* table requiring
 information on the analysis standard name, function call and its
 parameters, as shown in table 2.
 
+![](README_files/figures/table1_md.png)
+
+![](README_files/figures/table2_as.png)
+
 Following, it creates intermediate data tables that aggregate
 information at the subject-level. Table 3, shows an example for the
 creation of the *demographics per subject* intermediate data table. The
@@ -77,6 +66,8 @@ variables types and measurement units. The intermediate data tables are
 useful to avoid repeated data transformations (e.g., repeated
 aggregations) thus, reducing potential errors and computational
 execution time during the analysis.
+
+![](README_files/figures/table3_id.png)
 
 The algorithm continues with the creation of the results tables with
 specifications on the analysis results information that will be stored.
@@ -93,7 +84,7 @@ applications of the results (e.g., the analysis standard or the creation
 of a boxplot to visualize the data distribution).
 
 A comparable way of planning analyses is to look at estimands (Akacha et
-al. 2021). With estimands the question to answer is clearly defined so
+al., 2021). With estimands the question to answer is clearly defined so
 we know what to estimate. With an analysis standard we can clearly
 specify the analysis workflow by leveraging a grammar. Since these steps
 are clearly defined, the analysis is reproducible and transparent.
@@ -134,13 +125,15 @@ consistent standard. In this implementation we utilize data sets
 following the CDISC ADaM format. Starting with ADaM subject-level
 (ADSL), adverse events (ADAE), and time-to-event analysis datasets
 (ADTTE), the algorithm populates the metadata and intermediate data
-tables (e.g., Table 1).
+tables.
 
 Following, the user selects the analysis standard and provides the
 necessary information to successfully run the analysis. The function
 calls and the required parameters are shown by querying the *analysis
-standards* table (Table 2). An results example for the descriptive
+standards* table. An results example for the descriptive
 statistics on categorical demographics measurements is present below.
+
+![](README_files/figures/table4_result.png)
 
 ### Querying and applying the analysis results
 
@@ -150,13 +143,12 @@ categorical*, *descriptive demographics continuous*, and *descriptive
 baselines continuous*. Further, as the information stored in the results
 tables is dictated by the analysis standard, it is possible to inspect
 the results by querying the database and creating visualizations to
-better interpret the results. Below, we show an example using the
-results from *descriptive demographics categorical* table. The modular
+better interpret the results. The modular
 nature of the ARDM separates the results generation from the downstream
 outputs hence, updates on the visualizations do not affect the approach
 to get the results.
 
-![](README_files/figure-gfm/applications-1.png)<!-- -->
+The results summary example with a variety of plots and a table is available at [link](https://joanacmbarros.github.io/analysis-results-data-model/)
 
 ## References
 
