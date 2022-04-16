@@ -167,7 +167,7 @@ to get the results.
 Akacha, Mouna, Christian Bartels, Björn Bornkamp, Frank Bretz, Neva
 Coello, Thomas Dumortier, Michael Looby, et al. 2021. “Estimands—What
 They Are and Why They Are Important for Pharmacometricians.” *CPT:
-Pharmacometrics & Systems Pharmacology* 10 (4): 279.
+Pharmacometrics & Systems Pharmacology* 10 (4): 279. [link](https://ascpt.onlinelibrary.wiley.com/doi/full/10.1002/psp4.12617)
 
 </div>
 
