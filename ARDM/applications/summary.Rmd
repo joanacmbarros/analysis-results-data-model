@@ -15,12 +15,15 @@ library(here)
 library(scales)
 library(reactable)
 
+# Make sure path is relative
+here::i_am("ARDM/applications/summary.Rmd")
+
 # Load files necessary to create the tables and plots
-source(here::here("ARDM/applications/plots.R"))
-source(here::here("ARDM/applications/tables.R"))
+source(here::here("ARDM", "applications", "plots.R"))
+source(here::here("ARDM", "applications", "tables.R"))
 
 # Open connection to the database
-connection <- dbConnect(RSQLite::SQLite(), dbname = here::here("ARDM/database/ardm.sqlite"))
+connection <- dbConnect(RSQLite::SQLite(), dbname = here::here("ARDM", "database", "ardm.sqlite"))
 
 ```
 
