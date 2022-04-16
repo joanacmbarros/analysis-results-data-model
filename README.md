@@ -81,7 +81,7 @@ To begin populating the database, the clinical data must follow a consistent sta
 
 The results for the descriptive statistics analysis are stored in four tables: *descriptive demographics categorical*, *descriptive baselines categorical*, *descriptive demographics continuous*, and *descriptive baselines continuous*. Further, as the information stored in the results tables is dictated by the analysis standard, it is possible to inspect the results by querying the database and creating visualizations to better interpret the results. The modular nature of the ARDM separates the results generation from the downstream outputs hence, updates on the visualizations do not affect the approach to get the results.
 
-The results summary example with a variety of plots and a table is available [here](https://joanacmbarros.github.io/analysis-results-data-model/)
+The results summary example with a variety of plots and a table is available [here](https://joanacmbarros.github.io/analysis-results-data-model/).
 
 ## References
 
@@ -89,7 +89,7 @@ The results summary example with a variety of plots and a table is available [he
 
 <div id="ref-akacha2021estimands" class="csl-entry">
 
-Akacha, Mouna, Christian Bartels, Björn Bornkamp, Frank Bretz, Neva Coello, Thomas Dumortier, Michael Looby, et al. 2021. “Estimands—What They Are and Why They Are Important for Pharmacometricians.” *CPT: Pharmacometrics & Systems Pharmacology* 10 (4): 279. [link](https://ascpt.onlinelibrary.wiley.com/doi/full/10.1002/psp4.12617)
+Akacha, Mouna, Christian Bartels, Björn Bornkamp, Frank Bretz, Neva Coello, Thomas Dumortier, Michael Looby, et al. 2021. “[Estimands—What They Are and Why They Are Important for Pharmacometricians.](https://ascpt.onlinelibrary.wiley.com/doi/full/10.1002/psp4.12617)” *CPT: Pharmacometrics & Systems Pharmacology* 10 (4): 279.
 
 </div>
 
