@@ -5,7 +5,7 @@ It is commonly overlooked that analyzing data also produces data in the form of 
 
 ## How to use
 
-The repository can be used in two ways:
+This repository exemplifies how to create the ARDM. It should be viewed as a work in progress. This can be used in two ways:
 
 1.  Applying the database - Utilizes the pre-existing database which can be immediately queried and applied using the application examples in `summary.Rmd`.
 
