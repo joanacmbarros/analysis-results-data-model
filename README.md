@@ -3,6 +3,9 @@ Analysis Results Data Model
 
 It is commonly overlooked that analyzing data also produces data in the form of results. For example, aggregated summaries, descriptive statistics, and model predictions are data. Although integrating and putting findings into context is a cornerstone of scientific work, analysis results are often neglected as a data source.The analysis results data model (ARDM) is one solution to support analysis results management and stewardship by combining analysis standards with a common data model. The ARDM re-frames the target of analyses from static representations of the results (e.g., tables and figures) to a data model with applications in a variety of contexts, including knowledge discovery. To showcase the ARDM, we focus on its application in a clinical setting.
 
+## Preprint manuscript
+The preprint manuscript is [available on arXiv](https://arxiv.org/abs/2204.09959).
+
 ## How to use
 
 This repository exemplifies how to create the ARDM. It should be viewed as a work in progress. This can be used in two ways:
