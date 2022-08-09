@@ -67,7 +67,7 @@ plot_dotplot <- function(data){
 }
 
 # Plots the Kaplan-Meier curves from the survival analysis
-plot_km <- function(data, add_median, add_median_treatment){
+plot_km <- function(data){
   
   plot <- ggplot(data, aes(x=time, y=estimate, col=strata)) +
     geom_line(aes(linetype=strata)) +
@@ -75,20 +75,6 @@ plot_km <- function(data, add_median, add_median_treatment){
     theme_bw() +
     theme(legend.position = "top")
   
-  if(add_median == TRUE){
-    median <- data %>%
-      filter(strata == paste0("treatment=", add_median_treatment)) %>% 
-      select(median) %>% 
-      distinct() %>% 
-      pull(median)
-      
-    label <- paste(median, "days")
-    
-    plot <- plot +
-      annotate("segment", x = median, xend = median, yend = 0.5, y = 0.0) +
-      annotate("text", x = median - 5 , y = 0.00, label = label) +
-      annotate("segment", x = 0, xend = median, yend = 0.5, y = 0.5)
-  }
   plot
 }
 
