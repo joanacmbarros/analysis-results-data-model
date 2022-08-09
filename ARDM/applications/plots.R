@@ -71,7 +71,7 @@ plot_km <- function(data){
   
   plot <- ggplot(data, aes(x=time, y=estimate, col=strata)) +
     geom_line(aes(linetype=strata)) +
-    labs(x = "Time to event", y ="Probability of surival") +
+    labs(x = "Time to event", y ="Probability of survival") +
     theme_bw() +
     theme(legend.position = "top")
   
