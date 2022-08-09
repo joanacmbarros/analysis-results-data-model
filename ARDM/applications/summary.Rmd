@@ -127,7 +127,7 @@ data <- dbGetQuery(connection, "SELECT * FROM survival_analysis")
 par(mar = c(4, 4, .1, .2))
 
 # Plot the results
-plot_km(data, add_median = FALSE)
+plot_km(data, add_median = FALSE, add_median_treatment = FALSE)
 ```
 
 ```{r survival_filtered, fig.align='center'}
@@ -136,7 +136,7 @@ filtered_data <- data %>%
   dplyr::filter(!strata  %in% "treatment=Xanomeline low dose")
 
 # Plot the filtered results
-plot_km(filtered_data, add_median = FALSE, add_median_treatment)
+plot_km(filtered_data, add_median = FALSE, add_median_treatment = FALSE)
 ```
 
 ```{r survival_risk_table, fig.align='center'}
