@@ -5,7 +5,7 @@ output: html_document
 
 This document illustrates the querying and application of results derived and stored following the analysis results data model (ARDM). The tabs contain examples rendering the results from a descriptive, safety, and survival analysis standard into plots and tables.
 
-```{r load, results='hide', message=FALSE, include=T}
+```{r load, results='hide', message=FALSE, include=T, warning=FALSE}
 
 # Load libraries
 library(tidyverse)
@@ -14,6 +14,8 @@ library(RSQLite)
 library(here)
 library(scales)
 library(reactable)
+library(gridExtra)
+library(cowplot)
 
 # Make sure path is relative
 here::i_am("ARDM/applications/summary.Rmd")
@@ -125,22 +127,32 @@ data <- dbGetQuery(connection, "SELECT * FROM survival_analysis")
 par(mar = c(4, 4, .1, .2))
 
 # Plot the results
-plot_km(data)
+plot_km(data, add_median = FALSE)
 ```
 
 ```{r survival_filtered, fig.align='center'}
-# Search for the data 
-data <- dbGetQuery(connection, "SELECT * FROM survival_analysis")
-
-# Update margins 
-par(mar = c(4, 4, .1, .2))
-
 # Optional: filter the data  
 filtered_data <- data %>% 
   dplyr::filter(!strata  %in% "treatment=Xanomeline low dose")
 
 # Plot the filtered results
-plot_km(filtered_data)
+plot_km(filtered_data, add_median = FALSE, add_median_treatment)
+```
+
+```{r survival_risk_table, fig.align='center'}
+# Update margins 
+par(mar = c(4, 4, .1, .2))
+
+# Plot for the filtered results
+plot <- plot_km(filtered_data, 
+                add_median = TRUE, 
+                add_median_treatment = "Xanomeline high dose")
+
+# Plot for the risk table
+time_index <- c(0,50,100,150,200)
+table <- at_risk_table(time_index,filtered_data)
+
+plot_grid(plot, table, align = "h", axis = "l", nrow = 2)
 ```
 
 ```{r, echo=FALSE}

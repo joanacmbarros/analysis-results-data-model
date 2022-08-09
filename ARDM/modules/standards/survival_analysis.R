@@ -19,17 +19,22 @@ store_analysis_survival <- function(connection){
                      INNER JOIN treatment_per_subject USING (subject_id)")
   
   fit <- survival::survfit(formula = survival::Surv(days, 1 - censoring_flag) ~ treatment, data = data)
+  median <- data.frame("median" = unname(unlist(summary(fit)$table[,'median'])),
+                       "strata" = names(fit$strata))
+  
   tidy_fit <- broom::tidy(fit) %>% 
     dplyr::rename(CI_upper = conf.high,
-                    CI_lower = conf.low,
-                    n_risk = n.risk,
-                    n_event = n.event,
-                    n_censor = n.censor,
-                    std_error = std.error) %>% 
-    dplyr::mutate(study_id = unique(data$study_id)) 
-    
-    
-    tidy_fit$analysis_id <- analysis_info$analysis_id
-    dbWriteTable(connection, "survival_analysis", tidy_fit, append = T)
-
+                  CI_lower = conf.low,
+                  n_risk = n.risk,
+                  n_event = n.event,
+                  n_censor = n.censor,
+                  std_error = std.error) %>% 
+    dplyr::mutate(study_id = unique(data$study_id))
+  
+  tidy_fit <- left_join(tidy_fit, median, by = "strata")
+  
+  tidy_fit$analysis_id <- analysis_info$analysis_id
+  dbWriteTable(connection, "survival_analysis", tidy_fit, append = T)
+  
 }
+
